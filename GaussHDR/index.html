@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="GaussHDR: High Dynamic Range Gaussian Splatting via Learning Unified 3D and 2D Local Tone Mapping.">
+  <meta name="keywords" content="GaussHDR">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GaussHDR: High Dynamic Range Gaussian Splatting via Learning Unified 3D and 2D Local Tone Mapping</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <!-- Image Comparison Slider -->
+  <!-- https://github.com/sneas/img-comparison-slider -->
+  <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css" />
+
+
+  <link rel="icon" href="./static/images/favicon.ico">
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+</head>
+<body>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            <span style="font-weight: 1000;">GaussHDR:</span>
+            <span>High Dynamic Range Gaussian Splatting via Learning Unified 3D and 2D Local Tone Mapping</span>
+          </h1>
+          <div class="is-size-4 publication-authors">
+            <span 
+            class="author-block">CVPR 2025</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?hl=en&user=-moPItwAAAAJ" target="_blank">Jinfeng Liu<sup>1</sup></a>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?hl=en&user=KKzKc_8AAAAJ" target="_blank">Lingtong Kong<sup>2</sup></a>,</span>
+            <span class="author-block">
+              <a href="https://libraboli.github.io/" target="_blank">Bo Li<sup>2</sup></a>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.danxurgb.net/" target="_blank">Dan Xu<sup>1</sup></a>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>The Hong Kong University of Science and Technology,</span>
+            <span
+            class="author-block"><sup>2</sup>vivo Mobile Communication Co., Ltd</span>
+          </div>
+
+
+          <div class="column has-text-centered" style="margin-top: 0.5rem; margin-bottom: 0.3rem">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark" target="_blank">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <!-- <a href="https://github.com/KeKsBoTer/c3dgs" -->
+                <a href=""
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (Coming soon)</span>
+                </a>
+            </span>
+            <!-- Dataset Link. -->
+            <span class="link-block">
+                <a href=""
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="far fa-images"></i>
+                    </span>
+                    <span>Preprocessed Data</span>
+                </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="SVG mit img laden" width="100%">
+      <p class="subtitle has-text-centered is-size-6" style="margin-bottom: 1.0rem">
+        <b>3D tone mapping vs. 2D tone mapping.</b> Training with 3D tone mapping often results in inaccurate HDR rendering, while training with 2D tone mapping degrades LDR rendering quality, leading to a higher LDR RMSE metric.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            High dynamic range (HDR) novel view synthesis (NVS) aims to reconstruct HDR scenes by leveraging multi-view low dynamic range (LDR) images captured at different exposure levels. Current training paradigms with 3D tone mapping often result in unstable HDR reconstruction, while training with 2D tone mapping reduces the model's capacity to fit LDR images. Additionally, the global tone mapper used in existing methods can impede the learning of both HDR and LDR representations. To address these challenges, we present GaussHDR, which unifies 3D and 2D local tone mapping through 3D Gaussian splatting. Specifically, we design a residual local tone mapper for both 3D and 2D tone mapping that accepts an additional context feature as input. We then propose combining the dual LDR rendering results from both 3D and 2D local tone mapping at the loss level. Finally, recognizing that different scenes may exhibit varying balances between the dual results, we introduce uncertainty learning and use the uncertainties for adaptive modulation. Extensive experiments demonstrate that GaussHDR significantly outperforms state-of-the-art methods in both synthetic and real-world scenarios.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Method Overview</h2>
+    <div class="is-centered has-text-centered"><img src="static/images/framework.png" alt="SVG mit img laden" width="100%"></div>
+    <p style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
+      The overview of GaussHDR:
+      <ol style="padding-left: 1.5rem;list-style: none;">
+      <li>(a) We assign each 3D Gaussian with a context feature for 3D local tone mapping and uncertainty prediction. The HDR irradiance, context feature, LDR color and uncertainty are simultaneously rendered onto the image plane. </li>
+      <li>(b) We perform 2D local tone mapping on the rendered HDR image and feature map and predict the uncertainty.</li>
+      <li>(c) We combine the dual LDR rendering results under 3D and 2D local tone mapping at the loss level and utilize their uncertainties for adaptive modulation.</span> </li>
+      </ol>
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Demo Videos</h2>
+    <p style="padding-bottom: 1rem;">
+      We provide demo videos of novel HDR and LDR renderings for four scenes.
+  </p>
+    <div class="columns is-centered">
+
+      <!-- Visual Effects. -->
+      <!-- <div class="column">
+        <div class="content"> -->
+          <!-- <h2 class="title is-4">Comparison to 3DGS</h2> -->
+         
+          <!-- <div style="text-align: center;">
+              <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                  <h3 style="writing-mode: vertical-lr; transform: rotate(180deg); margin-right: 10px;">
+                      Bathroom
+                  </h3>
+                  <video autoplay controls muted loop playsinline width="60%">
+                      <source src="./static/videos/bathroom_demo.mp4" type="video/mp4">
+                  </video>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                  <h3 style="writing-mode: vertical-lr; transform: rotate(180deg); margin-right: 10px;">
+                      Flower
+                  </h3>
+                  <video autoplay controls muted loop playsinline width="60%">
+                      <source src="./static/videos/flower_demo.mp4" type="video/mp4">
+                  </video>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <h3 style="writing-mode: vertical-lr; transform: rotate(180deg); margin-right: 10px;">
+                    Character
+                </h3>
+                <video autoplay controls muted loop playsinline width="60%">
+                    <source src="./static/videos/character_demo.mp4" type="video/mp4">
+                </video>
+            </div>
+          </div>
+      </div> -->
+
+      <div class="column">
+        <!-- <h2 class="title is-4">Comparison to ZipNeRF</h2> -->
+        <div class="columns is-centered">
+          <div class="column content">
+            <video autoplay controls muted loop playsinline width="640" height="0">
+              <source src="./static/videos/bathroom_demo.mp4"
+                      type="video/mp4">
+            </video>
+            <video autoplay controls muted loop playsinline width="640" height="360">
+              <source src="./static/videos/flower_demo.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <!--/ Visual Effects. -->
+      <!-- Matting. -->
+      <div class="column">
+        <!-- <h2 class="title is-4">Comparison to ZipNeRF</h2> -->
+        <div class="columns is-centered">
+          <div class="column content">
+            <video autoplay controls muted loop playsinline width="640" height="0">
+              <source src="./static/videos/chair_demo.mp4"
+                      type="video/mp4">
+            </video>
+            <video autoplay controls muted loop playsinline width="640" height="360">
+              <source src="./static/videos/character_demo.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">HDR Comparisons</h2>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-4">HDR-GS vs. Ours-GS</h2>
+          <p>
+            We reimplement <a href="https://arxiv.org/abs/2405.15125">HDR-GS</a> for fair comparison. HDR GTs of synthetic data are <b>not</b> used for supervision.
+          </p>
+          <img-comparison-slider style="width: 100%;" hover="hover" >
+          <span slot="first" class="img-container">
+            <img src="static/images/chair/hdr_gs.png" width="100%">
+            <span class="bottom-left">HDR-GS</span>
+          </span>
+          <span slot="second" class="img-container">
+            <img src="static/images/chair/ours_gs.png" width="100%">
+            <span class="bottom-right">Ours-GS</span>
+          </span>
+          </img-comparison-slider>
+          <img-comparison-slider style="width: 100%;" hover="hover" >
+          <span slot="first" class="img-container">
+            <img src="static/images/sofa/hdr_gs.png" width="100%">
+            <span class="bottom-left">HDR-GS</span>
+          </span>
+          <span slot="second" class="img-container">
+            <img src="static/images/sofa/ours_gs.png" width="100%">
+            <span class="bottom-right">Ours-GS</span>
+          </span>
+          </img-comparison-slider>
+          <img-comparison-slider style="width: 100%;" hover="hover" >
+          <span slot="first" class="img-container">
+            <img src="static/images/computer/hdr_gs.png" width="100%">
+            <span class="bottom-left">HDR-GS</span>
+          </span>
+          <span slot="second" class="img-container">
+            <img src="static/images/computer/ours_gs.png" width="100%">
+            <span class="bottom-right">Ours-GS</span>
+          </span>
+          </img-comparison-slider>
+          <img-comparison-slider style="width: 100%;" hover="hover" >
+          <span slot="first" class="img-container">
+            <img src="static/images/luckycat/hdr_gs.png" width="100%">
+            <span class="bottom-left">HDR-GS</span>
+          </span>
+          <span slot="second" class="img-container">
+            <img src="static/images/luckycat/ours_gs.png" width="100%">
+            <span class="bottom-right">Ours-GS</span>
+          </span>
+          </img-comparison-slider>
+          <img-comparison-slider style="width: 100%;" hover="hover" >
+          <span slot="first" class="img-container">
+            <img src="static/images/coffee/hdr_gs.png" width="100%">
+            <span class="bottom-left">HDR-GS</span>
+          </span>
+          <span slot="second" class="img-container">
+            <img src="static/images/coffee/ours_gs.png" width="100%">
+            <span class="bottom-right">Ours-GS</span>
+          </span>
+          </img-comparison-slider>
+        </div>
+      </div>
+      <div class="column">
+        <div class="columns is-centered">
+          <div class="column content">
+            <h2 class="title is-4">HDR-Scaffold-GS vs. Ours-Scaffold-GS</h2>
+            <p>
+              We replace the scene representation in <a href="https://arxiv.org/abs/2405.15125">HDR-GS</a> from <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> to <a href="https://arxiv.org/abs/2312.00109">Scaffold-GS</a> to establish a new baseline for comparison.
+            </p>
+            <img-comparison-slider style="width: 100%;" hover="hover" >
+            <span slot="first" class="img-container">
+              <img src="static/images/chair/hdr_scaffold_gs.png" width="100%">
+              <span class="bottom-left">HDR-Scaffold-GS</span>
+            </span>
+            <span slot="second" class="img-container">
+              <img src="static/images/chair/ours_scaffold_gs.png" width="100%">
+              <span class="bottom-right">Ours-Scaffold-GS</span>
+            </span>
+            </img-comparison-slider>
+            <img-comparison-slider style="width: 100%;" hover="hover" >
+            <span slot="first" class="img-container">
+              <img src="static/images/sofa/hdr_scaffold_gs.png" width="100%">
+              <span class="bottom-left">HDR-Scaffold-GS</span>
+            </span>
+            <span slot="second" class="img-container">
+              <img src="static/images/sofa/ours_scaffold_gs.png" width="100%">
+              <span class="bottom-right">Ours-Scaffold-GS</span>
+            </span>
+            </img-comparison-slider>
+            <img-comparison-slider style="width: 100%;" hover="hover" >
+            <span slot="first" class="img-container">
+              <img src="static/images/computer/hdr_scaffold_gs.png" width="100%">
+              <span class="bottom-left">HDR-Scaffold-GS</span>
+            </span>
+            <span slot="second" class="img-container">
+              <img src="static/images/computer/ours_scaffold_gs.png" width="100%">
+              <span class="bottom-right">Ours-Scaffold-GS</span>
+            </span>
+            </img-comparison-slider>
+            <img-comparison-slider style="width: 100%;" hover="hover" >
+            <span slot="first" class="img-container">
+              <img src="static/images/luckycat/hdr_scaffold_gs.png" width="100%">
+              <span class="bottom-left">HDR-Scaffold-GS</span>
+            </span>
+            <span slot="second" class="img-container">
+              <img src="static/images/luckycat/ours_scaffold_gs.png" width="100%">
+              <span class="bottom-right">Ours-Scaffold-GS</span>
+            </span>
+          </img-comparison-slider>
+          <img-comparison-slider style="width: 100%;" hover="hover" >
+          <span slot="first" class="img-container">
+            <img src="static/images/coffee/hdr_scaffold_gs.png" width="100%">
+            <span class="bottom-left">HDR-Scaffold-GS</span>
+          </span>
+          <span slot="second" class="img-container">
+            <img src="static/images/coffee/ours_scaffold_gs.png" width="100%">
+            <span class="bottom-right">Ours-Scaffold-GS</span>
+          </span>
+          </img-comparison-slider>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">LDR Comparisons</h2>
+    <p>
+      We present the LDR qualitative comparisons through error maps, since it is difficult to distinguish the differences between LDR images with the naked eye. The following results can be also found in our supplementary material.
+    </p>
+    <img src="static/images/ldr.png" alt="SVG mit img laden" width="100%">
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{gausshdr,
+  author    = {Jinfeng Liu and Lingtong Kong and Bo Li and Dan Xu},
+  title     = {GaussHDR: High Dynamic Range Gaussian Splatting via Learning Unified 3D and 2D Local Tone Mapping},
+  booktitle = {CVPR}, 
+  year      = {2025},
+}</code></pre>
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="container">
+      <!-- <div class="content has-text-centered">
+          <a class="icon-link" href="">
+              <i class="fas fa-file-pdf"></i>
+          </a>
+          <a class="icon-link" href="https://github.com/KeKsBoTeR" class="external-link" disabled>
+              <i class="fab fa-github"></i>
+          </a>
+      </div> -->
+      <div class="columns is-centered">
+          <div class="column is-8">
+              <div class="content">
+                  <p>
+                      Website source code borrowed from <a href="https://keunhong.com">Keunhong Park</a>'s <a
+                          href="https://github.com/nerfies/nerfies.github.io">Nerfies website</a>.
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+</footer>
+
+</body>
+</html>
