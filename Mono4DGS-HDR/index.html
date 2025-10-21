@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Mono4DGS-HDR: High Dynamic Range 4D Gaussian Splatting from Alternating-exposure Monocular Videos.">
+  <meta name="keywords" content="Mono4DGS-HDR">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mono4DGS-HDR: High Dynamic Range 4D Gaussian Splatting from Alternating-exposure Monocular Videos</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <!-- Custom styles for video demo -->
+  <style>
+    .scene-btn {
+      margin: 0.25rem;
+      transition: all 0.3s ease;
+      min-width: 140px;
+    }
+    
+    .scene-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .scene-btn.is-primary {
+      font-weight: 600;
+    }
+    
+    .field.is-grouped.is-grouped-centered {
+      flex-wrap: wrap;
+    }
+    
+    .video-controls-section {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    .video-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+    
+    .video-row {
+      display: grid;
+      gap: 1.5rem;
+      justify-items: center;
+    }
+    
+    .video-row.four-videos {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .video-row.two-videos {
+      grid-template-columns: repeat(2, 1fr);
+      width: 100%;
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 1200px) {
+      .video-row.four-videos {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .video-row.four-videos,
+      .video-row.two-videos {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .video-item {
+      text-align: center;
+    }
+    
+    .video-item video {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .video-row.two-videos .video-item video {
+      max-width: 500px;
+    }
+    
+    .comparison-video-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+    
+    .comparison-video-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      justify-items: center;
+    }
+    
+    @media (max-width: 1024px) {
+      .comparison-video-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .comparison-video-row {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+    
+    .fixview-video-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .fixview-video-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      justify-items: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .fixview-video-row .video-item video {
+      max-width: 450px;
+    }
+    
+    @media (max-width: 768px) {
+      .fixview-video-row {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .fixview-video-row .video-item video {
+        max-width: 400px;
+      }
+    }
+    
+    .fixtime-video-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .fixtime-video-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      justify-items: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .fixtime-video-row .video-item video {
+      max-width: 450px;
+    }
+    
+    @media (max-width: 768px) {
+      .fixtime-video-row {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .fixtime-video-row .video-item video {
+        max-width: 400px;
+      }
+    }
+    
+    .video-item video:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .video-item h4 {
+      color: #363636;
+      font-weight: 600;
+    }
+    
+    .video-item p {
+      color: #757575;
+      font-style: italic;
+    }
+  </style>
+
+  <!-- Image Comparison Slider -->
+  <!-- https://github.com/sneas/img-comparison-slider -->
+  <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css" />
+
+
+  <link rel="icon" href="./static/images/favicon.ico">
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            <span style="font-weight: 1000;">Mono4DGS-HDR:</span>
+            <span>High Dynamic Range 4D Gaussian Splatting from Alternating-exposure Monocular Videos</span>
+          </h1>
+          <!-- <div class="is-size-4 publication-authors">
+            <span 
+            class="author-block">CVPR 2025</span>
+          </div> -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?hl=en&user=-moPItwAAAAJ" target="_blank">Jinfeng Liu<sup>1</sup></a>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?hl=en&user=KKzKc_8AAAAJ" target="_blank">Lingtong Kong<sup>2</sup></a>,</span>
+            <span class="author-block">
+              <a href="https://openreview.net/profile?id=~Mi_Zhou1" target="_blank">Mi Zhou<sup>2</sup></a>,
+            </span>
+            <span class="author-block">
+              <a href="https://openreview.net/profile?id=~Jinwei_Chen3" target="_blank">Jinwei Chen<sup>2</sup></a>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.danxurgb.net/" target="_blank">Dan Xu<sup>1</sup></a>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>The Hong Kong University of Science and Technology,</span>
+            <span
+            class="author-block"><sup>2</sup>vivo Mobile Communication Co., Ltd</span>
+          </div>
+
+
+          <div class="column has-text-centered" style="margin-top: 0.5rem; margin-bottom: 0.3rem">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark" target="_blank">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/LiuJF1226/Mono4DGS-HDR"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                </a>
+            </span>
+            <!-- Dataset Link. -->
+            <span class="link-block">
+                <a href=""
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="far fa-images"></i>
+                    </span>
+                    <span>Data</span>
+                </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="SVG mit img laden" width="100%">
+      <p class="subtitle has-text-centered is-size-6" style="margin-bottom: 1.0rem">
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We introduce Mono4DGS-HDR, the first system for reconstructing renderable 4D high dynamic range (HDR) scenes from unposed monocular low dynamic range (LDR) videos captured with alternating exposures. To tackle such a challenging problem, we present a unified framework with two-stage optimization approach based on Gaussian Splatting. The first stage learns a video HDR Gaussian representation in orthographic camera coordinate space, eliminating the need for camera poses and enabling robust initial HDR video reconstruction. The second stage transforms video Gaussians into world space and jointly refines the world Gaussians with camera poses. Furthermore, we propose a temporal luminance regularization strategy to enhance the temporal consistency of the HDR appearance. Since our task has not been studied before, we construct a new evaluation benchmark using publicly available datasets for HDR video reconstruction. Extensive experiments demonstrate that Mono4DGS-HDR significantly outperforms alternative solutions adapted from state-of-the-art methods in both rendering quality and speed.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Method Overview</h2>
+    <div class="is-centered has-text-centered"><img src="static/images/framework.png" alt="SVG mit img laden" width="100%"></div>
+    <div class="content has-text-justified" style="padding-top: 1rem;">
+      <p style="margin-bottom: 0.5rem; font-weight: 500;">
+        The overview of Mono4DGS-HDR:
+      </p>
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 0.75rem; padding-left: 1rem; text-indent: -1rem;">
+          <strong>(a)</strong> We infer vision foundation models on the input alternating-exposure video to extract 2D priors, which provide scene initialization and regularization.
+        </li>
+        <li style="margin-bottom: 0.75rem; padding-left: 1rem; text-indent: -1rem;">
+          <strong>(b)</strong> We propose a novel two-stage Gaussian optimization procedure, which includes video Gaussian training in the first stage, world Gaussian fine-tuning in the second stage, and a video-to-world Gaussian transformation strategy. The HDR Gaussians are optimized through 2D prior supervision, Gaussian motion regularization, temporal luminance regularization and HDR photometric reprojection loss.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Demo Videos of Mono4DGS-HDR</h2>
+    <p style="padding-bottom: 1rem;">
+      We provide demo videos for our Mono4DGS-HDR, including the precomputed 2D prior information and our rendered results. Click the scene buttons to switch between scenes. All four video types are displayed simultaneously.
+    </p>
+    
+    <!-- Scene Selection Buttons -->
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <div class="video-controls-section">
+        <h4 class="title is-6" style="margin-bottom: 0.5rem;">Select Scene:</h4>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button is-primary scene-btn" data-scene="CheckingEmail" onclick="switchScene('CheckingEmail')">
+              <span>Checking Email</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Fishing" onclick="switchScene('Fishing')">
+              <span>Fishing</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="ThrowingTowel" onclick="switchScene('ThrowingTowel')">
+              <span>Throwing Towel</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Worker" onclick="switchScene('Worker')">
+              <span>Worker</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Display Grid -->
+    <div class="video-grid">
+      <!-- First Row: 4 videos -->
+      <div class="video-row four-videos">
+        <!-- Input Video with Prior Track -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Input Video with Prior Track</h4>
+          <video id="video-track" autoplay controls muted loop playsinline>
+            <source id="source-track" src="./static/demo_videos/CheckingEmail/prior_track.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Prior Depth Video -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Prior Depth</h4>
+          <video id="video-depth" autoplay controls muted loop playsinline>
+            <source id="source-depth" src="./static/demo_videos/CheckingEmail/prior_depth.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Prior Flow Video -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Prior Flow</h4>
+          <video id="video-flow" autoplay controls muted loop playsinline>
+            <source id="source-flow" src="./static/demo_videos/CheckingEmail/prior_flow.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Prior Mask Video -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Prior Mask</h4>
+          <video id="video-mask" autoplay controls muted loop playsinline>
+            <source id="source-mask" src="./static/demo_videos/CheckingEmail/prior_mask.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+      <!-- Second Row: 4 videos -->
+      <div class="video-row four-videos">
+        <!-- Rendered HDR -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Rendered HDR Video</h4>
+          <video id="video-hdr" autoplay controls muted loop playsinline>
+            <source id="source-hdr" src="./static/demo_videos/CheckingEmail/rendered_video_hdr.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Rendered Depth -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Rendered Depth</h4>
+          <video id="video-rendered-depth" autoplay controls muted loop playsinline>
+            <source id="source-rendered-depth" src="./static/demo_videos/CheckingEmail/rendered_depth.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Rendered HDR Dynamic -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Rendered HDRV (Dynamic)</h4>
+          <video id="video-hdr-dynamic" autoplay controls muted loop playsinline>
+            <source id="source-hdr-dynamic" src="./static/demo_videos/CheckingEmail/rendered_video_hdr_dynamic.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Rendered HDR Static -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Rendered HDRV (Static)</h4>
+          <video id="video-hdr-static" autoplay controls muted loop playsinline>
+            <source id="source-hdr-static" src="./static/demo_videos/CheckingEmail/rendered_video_hdr_static.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+      <!-- Third Row: 2 videos -->
+      <div class="video-row two-videos">
+        <!-- Novel View Time -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Novel View and Time Rendering</h4>
+          <video id="video-novel-view" autoplay controls muted loop playsinline>
+            <source id="source-novel-view" src="./static/demo_videos/CheckingEmail/novel_view_time.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- 3D Moving Flow -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Induced 3D Tracking by Gaussian Motion</h4>
+          <video id="video-3d-flow" autoplay controls muted loop playsinline>
+            <source id="source-3d-flow" src="./static/demo_videos/CheckingEmail/3D_moving_flow.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Comparison Results on Recovered HDR Videos</h2>
+    <p style="padding-bottom: 1rem;">
+      Comparison of our method with state-of-the-art approaches on recovered HDR videos. We extend GFlow, SplineGS and MoSca to HDR mode for fair comparison. Click the scene buttons to switch between different scenes.
+    </p>
+    
+    <!-- Comparison Scene Selection Buttons -->
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <div class="video-controls-section">
+        <h4 class="title is-6" style="margin-bottom: 0.5rem;">Select Scene:</h4>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button scene-btn" data-scene="Cleaning" onclick="switchComparisonScene('Cleaning')">
+              <span>Cleaning</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Ninja" onclick="switchComparisonScene('Ninja')">
+              <span>Ninja</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Skateboarder" onclick="switchComparisonScene('Skateboarder')">
+              <span>Skateboarder</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Students_2" onclick="switchComparisonScene('Students_2')">
+              <span>Students_2</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="padding-bottom: 1rem; font-style: italic; color: #666; text-align: center;">
+      <strong>Note:</strong> Students_2 scene has no camera motion (fixed camera).
+    </p>
+
+    <!-- Comparison Video Display Grid -->
+    <div class="comparison-video-grid">
+      <!-- First Row: 3 videos -->
+      <div class="comparison-video-row">
+        <!-- GaussHDR -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">GaussHDR</h4>
+          <video id="comparison-video-gausshdr" autoplay controls muted loop playsinline>
+            <source id="comparison-source-gausshdr" src="./static/comparison_videos/rendered_hdr/Cleaning/GaussHDR.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- GFlow -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">GFlow-HDR</h4>
+          <video id="comparison-video-gflow" autoplay controls muted loop playsinline>
+            <source id="comparison-source-gflow" src="./static/comparison_videos/rendered_hdr/Cleaning/GFlow.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- SplineGS -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">SplineGS-HDR</h4>
+          <video id="comparison-video-splinegs" autoplay controls muted loop playsinline>
+            <source id="comparison-source-splinegs" src="./static/comparison_videos/rendered_hdr/Cleaning/SplineGS.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+      <!-- Second Row: 3 videos -->
+      <div class="comparison-video-row">
+        <!-- HDR-HexPlane -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">HDR-HexPlane</h4>
+          <video id="comparison-video-hexplane" autoplay controls muted loop playsinline>
+            <source id="comparison-source-hexplane" src="./static/comparison_videos/rendered_hdr/Cleaning/HDR-HexPlane.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- MoSca -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">MoSca-HDR</h4>
+          <video id="comparison-video-mosca" autoplay controls muted loop playsinline>
+            <source id="comparison-source-mosca" src="./static/comparison_videos/rendered_hdr/Cleaning/MoSca.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Ours -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Mono4DGS-HDR (Ours)</h4>
+          <video id="comparison-video-ours" autoplay controls muted loop playsinline>
+            <source id="comparison-source-ours" src="./static/comparison_videos/rendered_hdr/Cleaning/Ours.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Comparison Results under Fix-View-Change-Time Setting</h2>
+    <p style="padding-bottom: 1rem;">
+      Comparison of our method with MoSca under the fix-view-change-time setting. We extend MoSca to HDR mode for fair comparison. Click the scene buttons to switch between different scenes.
+    </p>
+    
+    <!-- Fix-View Scene Selection Buttons -->
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <div class="video-controls-section">
+        <h4 class="title is-6" style="margin-bottom: 0.5rem;">Select Scene:</h4>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button scene-btn" data-scene="Cars" onclick="switchFixViewScene('Cars')">
+              <span>Cars</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Ninja" onclick="switchFixViewScene('Ninja')">
+              <span>Ninja</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Skateboarder" onclick="switchFixViewScene('Skateboarder')">
+              <span>Skateboarder</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Worker" onclick="switchFixViewScene('Worker')">
+              <span>Worker</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fix-View Video Display Grid -->
+    <div class="fixview-video-grid">
+      <div class="fixview-video-row">
+        <!-- MoSca -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">MoSca-HDR</h4>
+          <video id="fixview-video-mosca" autoplay controls muted loop playsinline>
+            <source id="fixview-source-mosca" src="./static/comparison_videos/fix_view_change_time/Cars/MoSca.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Ours -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Mono4DGS-HDR (Ours)</h4>
+          <video id="fixview-video-ours" autoplay controls muted loop playsinline>
+            <source id="fixview-source-ours" src="./static/comparison_videos/fix_view_change_time/Cars/Ours.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Comparison Results under Fix-Time-Change-View Setting</h2>
+    <p style="padding-bottom: 1rem;">
+      Comparison of our method with MoSca under the fix-time-change-view setting. We extend MoSca to HDR mode for fair comparison. Click the scene buttons to switch between different scenes.
+    </p>
+    
+    <!-- Fix-Time Scene Selection Buttons -->
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <div class="video-controls-section">
+        <h4 class="title is-6" style="margin-bottom: 0.5rem;">Select Scene:</h4>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button scene-btn" data-scene="CheckingEmail" onclick="switchFixTimeScene('CheckingEmail')">
+              <span>Checking Email</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="WavingHands" onclick="switchFixTimeScene('WavingHands')">
+              <span>Waving Hands</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fix-Time Video Display Grid -->
+    <div class="fixtime-video-grid">
+      <div class="fixtime-video-row">
+        <!-- MoSca -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">MoSca-HDR</h4>
+          <video id="fixtime-video-mosca" autoplay controls muted loop playsinline>
+            <source id="fixtime-source-mosca" src="./static/comparison_videos/fix_time_change_view/CheckingEmail/MoSca.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- Ours -->
+        <div class="video-item">
+          <h4 class="title is-6" style="margin-bottom: 1rem;">Mono4DGS-HDR (Ours)</h4>
+          <video id="fixtime-video-ours" autoplay controls muted loop playsinline>
+            <source id="fixtime-source-ours" src="./static/comparison_videos/fix_time_change_view/CheckingEmail/Ours.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+      <!-- <div class="content has-text-centered">
+          <a class="icon-link" href="">
+              <i class="fas fa-file-pdf"></i>
+          </a>
+          <a class="icon-link" href="https://github.com/KeKsBoTeR" class="external-link" disabled>
+              <i class="fab fa-github"></i>
+          </a>
+      </div> -->
+      <div class="columns is-centered">
+          <div class="column is-8">
+              <div class="content">
+                  <p>
+                      Website source code borrowed from <a href="https://keunhong.com">Keunhong Park</a>'s <a
+                          href="https://github.com/nerfies/nerfies.github.io">Nerfies website</a>.
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+</footer>
+
+<script>
+// Current state
+let currentScene = 'CheckingEmail';
+
+// Scene names mapping
+const sceneNames = {
+  'CheckingEmail': 'Checking Email Scene',
+  'Fishing': 'Fishing Scene',
+  'ThrowingTowel': 'Throwing Towel Scene',
+  'Worker': 'Worker Scene'
+};
+
+// Video types and their corresponding IDs
+const videoMappings = [
+  { file: 'prior_track', id: 'track' },
+  { file: 'prior_depth', id: 'depth' },
+  { file: 'prior_flow', id: 'flow' },
+  { file: 'prior_mask', id: 'mask' },
+  { file: 'rendered_video_hdr', id: 'hdr' },
+  { file: 'rendered_depth', id: 'rendered-depth' },
+  { file: 'rendered_video_hdr_dynamic', id: 'hdr-dynamic' },
+  { file: 'rendered_video_hdr_static', id: 'hdr-static' },
+  { file: 'novel_view_time', id: 'novel-view' },
+  { file: '3D_moving_flow', id: '3d-flow' }
+];
+
+// Update all videos for the current scene
+function updateAllVideos() {
+  videoMappings.forEach(mapping => {
+    const videoPath = `./static/demo_videos/${currentScene}/${mapping.file}.mp4`;
+    const videoElement = document.getElementById(`video-${mapping.id}`);
+    const videoSource = document.getElementById(`source-${mapping.id}`);
+    
+    if (videoSource && videoElement) {
+      videoSource.src = videoPath;
+      videoElement.load(); // Reload the video with new source
+    }
+  });
+}
+
+// Switch scene function
+function switchScene(sceneName) {
+  if (!sceneNames[sceneName]) return;
+  
+  currentScene = sceneName;
+  updateAllVideos();
+  
+  // Update scene button states - only for demo videos section
+  const sceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  sceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchScene')) {
+      if (btn.getAttribute('data-scene') === sceneName) {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.remove('is-primary');
+        btn.classList.add('is-light');
+      }
+    }
+  });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  // Set initial button states
+  const sceneButtons = document.querySelectorAll('.scene-btn');
+  sceneButtons.forEach(btn => {
+    if (btn.getAttribute('data-scene') !== 'CheckingEmail') {
+      btn.classList.add('is-light');
+    }
+  });
+  
+  // Set initial comparison button states
+  const comparisonSceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  comparisonSceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchComparisonScene')) {
+      if (btn.getAttribute('data-scene') === 'Cleaning') {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.add('is-light');
+        btn.classList.remove('is-primary');
+      }
+    }
+  });
+  
+  // Set initial fix-view button states
+  const fixviewSceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  fixviewSceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchFixViewScene')) {
+      if (btn.getAttribute('data-scene') === 'Cars') {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.add('is-light');
+        btn.classList.remove('is-primary');
+      }
+    }
+  });
+  
+  // Set initial fix-time button states
+  const fixtimeSceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  fixtimeSceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchFixTimeScene')) {
+      if (btn.getAttribute('data-scene') === 'CheckingEmail') {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.add('is-light');
+        btn.classList.remove('is-primary');
+      }
+    }
+  });
+  
+  // Load initial videos
+  updateAllVideos();
+  updateAllComparisonVideos();
+  updateAllFixViewVideos();
+  updateAllFixTimeVideos();
+});
+
+// Fix-View video functionality
+let currentFixViewScene = 'Cars';
+
+// Fix-View scene names mapping
+const fixViewSceneNames = {
+  'Cars': 'Cars Scene',
+  'Ninja': 'Ninja Scene',
+  'Skateboarder': 'Skateboarder Scene',
+  'Worker': 'Worker Scene'
+};
+
+// Fix-View video types and their corresponding IDs
+const fixViewVideoMappings = [
+  { file: 'MoSca', id: 'mosca' },
+  { file: 'Ours', id: 'ours' }
+];
+
+// Update all fix-view videos for the current scene
+function updateAllFixViewVideos() {
+  fixViewVideoMappings.forEach(mapping => {
+    const videoPath = `./static/comparison_videos/fix_view_change_time/${currentFixViewScene}/${mapping.file}.mp4`;
+    const videoElement = document.getElementById(`fixview-video-${mapping.id}`);
+    const videoSource = document.getElementById(`fixview-source-${mapping.id}`);
+    
+    if (videoSource && videoElement) {
+      videoSource.src = videoPath;
+      videoElement.load(); // Reload the video with new source
+    }
+  });
+}
+
+// Switch fix-view scene function
+function switchFixViewScene(sceneName) {
+  if (!fixViewSceneNames[sceneName]) return;
+  
+  currentFixViewScene = sceneName;
+  updateAllFixViewVideos();
+  
+  // Update fix-view scene button states
+  const fixviewSceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  fixviewSceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchFixViewScene')) {
+      if (btn.getAttribute('data-scene') === sceneName) {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.remove('is-primary');
+        btn.classList.add('is-light');
+      }
+    }
+  });
+}
+
+// Fix-Time video functionality
+let currentFixTimeScene = 'CheckingEmail';
+
+// Fix-Time scene names mapping
+const fixTimeSceneNames = {
+  'CheckingEmail': 'Checking Email Scene',
+  'WavingHands': 'Waving Hands Scene'
+};
+
+// Fix-Time video types and their corresponding IDs
+const fixTimeVideoMappings = [
+  { file: 'MoSca', id: 'mosca' },
+  { file: 'Ours', id: 'ours' }
+];
+
+// Update all fix-time videos for the current scene
+function updateAllFixTimeVideos() {
+  fixTimeVideoMappings.forEach(mapping => {
+    const videoPath = `./static/comparison_videos/fix_time_change_view/${currentFixTimeScene}/${mapping.file}.mp4`;
+    const videoElement = document.getElementById(`fixtime-video-${mapping.id}`);
+    const videoSource = document.getElementById(`fixtime-source-${mapping.id}`);
+    
+    if (videoSource && videoElement) {
+      videoSource.src = videoPath;
+      videoElement.load(); // Reload the video with new source
+    }
+  });
+}
+
+// Switch fix-time scene function
+function switchFixTimeScene(sceneName) {
+  if (!fixTimeSceneNames[sceneName]) return;
+  
+  currentFixTimeScene = sceneName;
+  updateAllFixTimeVideos();
+  
+  // Update fix-time scene button states
+  const fixtimeSceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  fixtimeSceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchFixTimeScene')) {
+      if (btn.getAttribute('data-scene') === sceneName) {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.remove('is-primary');
+        btn.classList.add('is-light');
+      }
+    }
+  });
+}
+
+// Comparison video functionality
+let currentComparisonScene = 'Cleaning';
+
+// Comparison scene names mapping
+const comparisonSceneNames = {
+  'Cleaning': 'Cleaning Scene',
+  'Ninja': 'Ninja Scene',
+  'Skateboarder': 'Skateboarder Scene',
+  'Students_2': 'Students Scene'
+};
+
+// Comparison video types and their corresponding IDs
+const comparisonVideoMappings = [
+  { file: 'GaussHDR', id: 'gausshdr' },
+  { file: 'GFlow', id: 'gflow' },
+  { file: 'SplineGS', id: 'splinegs' },
+  { file: 'HDR-HexPlane', id: 'hexplane' },
+  { file: 'MoSca', id: 'mosca' },
+  { file: 'Ours', id: 'ours' }
+];
+
+// Update all comparison videos for the current scene
+function updateAllComparisonVideos() {
+  comparisonVideoMappings.forEach(mapping => {
+    const videoPath = `./static/comparison_videos/rendered_hdr/${currentComparisonScene}/${mapping.file}.mp4`;
+    const videoElement = document.getElementById(`comparison-video-${mapping.id}`);
+    const videoSource = document.getElementById(`comparison-source-${mapping.id}`);
+    
+    if (videoSource && videoElement) {
+      videoSource.src = videoPath;
+      videoElement.load(); // Reload the video with new source
+    }
+  });
+}
+
+// Switch comparison scene function
+function switchComparisonScene(sceneName) {
+  if (!comparisonSceneNames[sceneName]) return;
+  
+  currentComparisonScene = sceneName;
+  updateAllComparisonVideos();
+  
+  // Update comparison scene button states
+  const comparisonSceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  comparisonSceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchComparisonScene')) {
+      if (btn.getAttribute('data-scene') === sceneName) {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.remove('is-primary');
+        btn.classList.add('is-light');
+      }
+    }
+  });
+}
+</script>
+
+
+
+
+</body>
+</html>
