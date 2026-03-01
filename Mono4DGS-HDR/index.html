@@ -212,7 +212,6 @@
   <script defer src="./static/js/fontawesome.all.min.js"></script>
 </head>
 <body>
-
 <section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
@@ -333,11 +332,13 @@
   </div>
 </section>
 
+
+
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3">Demo Videos of Mono4DGS-HDR</h2>
     <p style="padding-bottom: 1rem;">
-      We provide demo videos for our Mono4DGS-HDR, including the precomputed 2D prior information and our rendered results. Click the scene buttons to switch between scenes. All four video types are displayed simultaneously.
+      We provide demo videos for our Mono4DGS-HDR, including the 2D prior information and our rendered results. Click the scene buttons to switch between scenes. All four video types are displayed simultaneously.
     </p>
     
     <!-- Scene Selection Buttons -->
@@ -472,6 +473,56 @@
     </div>
   </div>
 </section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Wide-View-Change Rendering</h2>
+    <p style="padding-bottom: 1rem;">
+      We provide rendering results with wide view changes. Click the scene buttons to switch between different scenes.
+    </p>
+    
+    <!-- Wide View Scene Selection Buttons -->
+    <div class="has-text-centered" style="margin-bottom: 2rem;">
+      <div class="video-controls-section">
+        <h4 class="title is-6" style="margin-bottom: 0.5rem;">Select Scene:</h4>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button is-primary scene-btn" data-scene="Bridge2" onclick="switchWideViewScene('Bridge2')">
+              <span>Bridge2</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Fishing" onclick="switchWideViewScene('Fishing')">
+              <span>Fishing</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Welding" onclick="switchWideViewScene('Welding')">
+              <span>Welding</span>
+            </button>
+          </div>
+          <div class="control">
+            <button class="button scene-btn" data-scene="Worker" onclick="switchWideViewScene('Worker')">
+              <span>Worker</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wide View Change Video Display -->
+    <div style="display: flex; justify-content: center; margin-top: 2rem;">
+      <div style="text-align: center;">
+        <video id="wideview-video" autoplay controls muted loop playsinline style="width: 100%; max-width: 750px; border-radius: 8px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">
+          <source id="wideview-source" src="./static/wide_view_change/Bridge2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section class="section">
   <div class="container is-max-desktop">
@@ -839,12 +890,72 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
+  // Set initial wide-view button states
+  const wideviewSceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  wideviewSceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchWideViewScene')) {
+      if (btn.getAttribute('data-scene') === 'Bridge2') {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.add('is-light');
+        btn.classList.remove('is-primary');
+      }
+    }
+  });
+  
   // Load initial videos
   updateAllVideos();
   updateAllComparisonVideos();
   updateAllFixViewVideos();
   updateAllFixTimeVideos();
+  updateWideViewVideo();
 });
+
+// Wide View video functionality
+let currentWideViewScene = 'Bridge2';
+
+// Wide View scene names mapping
+const wideViewSceneNames = {
+  'Bridge2': 'Bridge2 Scene',
+  'Fishing': 'Fishing Scene',
+  'Welding': 'Welding Scene',
+  'Worker': 'Worker Scene'
+};
+
+// Update wide view video for the current scene
+function updateWideViewVideo() {
+  const videoPath = `./static/wide_view_change/${currentWideViewScene}.mp4`;
+  const videoElement = document.getElementById('wideview-video');
+  const videoSource = document.getElementById('wideview-source');
+  
+  if (videoSource && videoElement) {
+    videoSource.src = videoPath;
+    videoElement.load(); // Reload the video with new source
+  }
+}
+
+// Switch wide view scene function
+function switchWideViewScene(sceneName) {
+  if (!wideViewSceneNames[sceneName]) return;
+  
+  currentWideViewScene = sceneName;
+  updateWideViewVideo();
+  
+  // Update wide view scene button states
+  const wideviewSceneButtons = document.querySelectorAll('.scene-btn[data-scene]');
+  wideviewSceneButtons.forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('switchWideViewScene')) {
+      if (btn.getAttribute('data-scene') === sceneName) {
+        btn.classList.add('is-primary');
+        btn.classList.remove('is-light');
+      } else {
+        btn.classList.remove('is-primary');
+        btn.classList.add('is-light');
+      }
+    }
+  });
+}
 
 // Fix-View video functionality
 let currentFixViewScene = 'Cars';
