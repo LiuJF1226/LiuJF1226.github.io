@@ -1,1 +1,456 @@
+<!DOCTYPE HTML>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+  <title>Jinfeng Liu</title>
+  
+  <meta name="author" content="Jon Barron">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😇</text></svg>">
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,600">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+  <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
+    </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+</head>
+
+<body>
+
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+          <td style="padding:20px;width:100%;vertical-align:middle">
+            <nav class="navbar navbar-default navbar-fixed-top">
+              <div class="container">
+                <div class="navbar-header page-scroll">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class='navbar-brand page-scroll' href='/'>
+                    <span style='font-family:"Open Sans"; font-weight:300'>Jinfeng Liu</span>
+                  </a>
+                </div>
+            
+                <div id="navbar" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav navbar-right">
+                      <li style="font-size:20px"><a class='name' href="">Home</a></li>
+                      <li style="font-size:20px"><a class='name' href="#news">News</a></li>
+                      <li style="font-size:20px"><a class='name' href="#pre-prints">Pre-prints</a></li>
+                      <li style="font-size:20px"><a class='name' href="#publications">Publications</a></li>
+                      <li style="font-size:20px"><a class='name' href="#interships">Interships</a></li>
+                      <li style="font-size:20px"><a class='name' href="#services">Services</a></li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+            <!-- from https://yangekun.gitee.io/blog/2018/12/14/2018-12-14-Bootstrap%E5%AF%BC%E8%88%AA%E6%A0%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E6%8A%98%E5%8F%A0%E9%9A%90%E8%97%8F/ -->
+            <script>
+                  $(window).scroll(function () {
+                if ($(window).width() < 768) {
+                  $("#navbar a").click(function () {
+                    $("#navbar").collapse('hide');
+                  });
+                  $(window).scroll(function () {
+                    $("#navbar").collapse('hide');
+                  });
+                }
+              });	
+            </script>
+
+          </td>
+          </tr>
+        </tbody></table>
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <br>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <p style="text-align:center">
+                <!-- <name>Jinfeng Liu  ("刘劲枫" in Chinese)</name> -->
+                <name>Jinfeng Liu</name>
+              </p>
+              <p> I am currently a Ph.D. student under the supervision of <a href="https://www.danxurgb.net/">Prof. Dan Xu</a>, at Hong Kong University of Science and Technology (<a href="https://www.ust.hk/home">HKUST</a>). I received my Bachelor's Degree and Master's Degree from Shanghai Jiao Tong University (<a href="https://en.sjtu.edu.cn/">SJTU</a>) in 2021 and 2024, advised by <a href="http://www.pami.sjtu.edu.cn/jieyang">Prof. Jie Yang</a> and <a href="https://wliusjtu.github.io/">Prof. Wei Liu</a>.
+              </p>
+              <p>
+                My primary research interests lie in 3D vision. My past research experience includes vision-language pretraining, depth estimation, and 3D/4D Gaussian Splatting. Currently, I am particularly interested in 3D/4D reconstruction, spatial intelligence, and world models. Feel free to contact me if you are interested in collaborating on these topics.
+              </p>
+              <p style="text-align:center">
+                <a href="mailto:jliugk@connect.ust.hk">Email1</a> &nbsp/&nbsp
+                <a href="mailto:jinfengliu26@gmail.com">Email2</a> &nbsp/&nbsp
+                <a href="https://scholar.google.com/citations?hl=en&user=-moPItwAAAAJ">Google Scholar</a> &nbsp/&nbsp
+                <a href="https://github.com/LiuJF1226">Github</a>
+              </p>
+            </td>
+            <!-- <td style="padding:2.5%;width:40%;max-width:40%"> -->
+            <td style="padding:2.5%;width:50%;max-width:50%">
+              <a href=""><img style="width:100%;max-width:100%" alt="profile photo" src="images/bio_img.jpg" class="hoverZoomLink"></a>
+            </td>
+          </tr>
+        </tbody></table>
+
+        <a id="news"></a>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+          <td style="padding:20px;width:100%;vertical-align:middle">
+            <heading>News</heading>
+          </td>
+          </tr>
+        </tbody></table>
+
+        <table class="wsite-multicol-table" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+          <tbody class="wsite-multicol-tbody">
+            <tr class="wsite-multicol-tr">
+              <td class="wsite-multicol-col" style="width:100%; padding:0 0px;">
+                <div class="paragraph" style="text-align:justify;max-height: 622px; overflow:auto; max-width: 9999999999px">
+                  <ul class="navlist">	
+                    <li><strong>Jan. 26, 2026:</strong> Our paper <a href="https://liujf1226.github.io/Mono4DGS-HDR/">Mono4DGS-HDR</a> is accepted by ICLR 2026. Thanks to Prof. Dan Xu for his great help.</li>
+                    <li><strong>Feb. 27, 2025:</strong> Our paper <a href="https://liujf1226.github.io/GaussHDR/">GaussHDR</a> is accepted by CVPR 2025. Thanks to Prof. Dan Xu for his great help.</li>
+                    <li><strong>Aug. 12, 2024:</strong> Our paper <a href="https://github.com/LiuJF1226/Mono-ViFI">Mono-ViFI</a> is accepted by ECCV 2024.</li>                    
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- <a id="pre-prints"></a>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Pre-Prints</heading>
+            </td>
+          </tr>
+        </tbody></table> -->
+
+
+        <a id="publications"></a>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Publications</heading>
+            </td>
+          </tr>
+        </tbody></table>
+
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>					
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <a href="javascript:void(0)" class="paper-teaser-link" onclick="openImagePreview('images/mono4dgs-hdr.png')" title="点击查看大图">
+                <span class="paper-teaser-thumb">
+                  <img src="images/mono4dgs-hdr.png" width="200" alt="Mono4DGS-HDR teaser">
+                  <span class="paper-teaser-zoom"><i class="fa fa-search"></i></span>
+                </span>
+              </a>
+            </td>
+            <td width="75%" valign="middle">
+              <a href="https://liujf1226.github.io/Mono4DGS-HDR/">
+                <papertitle>Mono4DGS-HDR: High Dynamic Range 4D Gaussian Splatting from Alternating-exposure Monocular Videos</papertitle>
+              </a>
+              <br>
+              <strong>Jinfeng Liu</strong>, 
+              <a href="https://scholar.google.com/citations?hl=en&user=KKzKc_8AAAAJ">Lingtong Kong</a>,
+              <a href="https://openreview.net/profile?id=~Mi_Zhou1">Mi Zhou</a>,
+              <a href="https://openreview.net/profile?id=~Jinwei_Chen3">Jinwei Chen</a>,
+              <a href="https://www.danxurgb.net/index.html">Dan Xu</a>
+              <br>
+              <strong style="color:red;"><em>ICLR</em>, 2026</strong>
+              <br>
+              <a href="https://liujf1226.github.io/Mono4DGS-HDR/">project page</a> /
+              <a href="https://arxiv.org/abs/2510.18489">arxiv</a> /
+              <a href="https://github.com/LiuJF1226/Mono4DGS-HDR">code</a> 
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <a href="javascript:void(0)" class="paper-teaser-link" onclick="openImagePreview('images/gausshdr_image.png')" title="点击查看大图">
+                <span class="paper-teaser-thumb">
+                  <img src="images/gausshdr_image.png" width="200" alt="GaussHDR teaser">
+                  <span class="paper-teaser-zoom"><i class="fa fa-search"></i></span>
+                </span>
+              </a>
+            </td>
+            <td width="75%" valign="middle">
+              <a href="https://liujf1226.github.io/GaussHDR/">
+                <papertitle>GaussHDR: High Dynamic Range Gaussian Splatting via Learning Unified 3D and 2D Local Tone Mapping</papertitle>
+              </a>
+              <br>
+              <strong>Jinfeng Liu</strong>, 
+              <a href="https://scholar.google.com/citations?hl=en&user=KKzKc_8AAAAJ">Lingtong Kong</a>,
+              <a href="https://libraboli.github.io/">Bo Li</a>,
+              <a href="https://www.danxurgb.net/index.html">Dan Xu</a>
+              <br>
+              <strong style="color:red;"><em>CVPR</em>, 2025</strong>
+              <br>
+              <a href="https://liujf1226.github.io/GaussHDR/">project page</a> /
+              <a href="https://arxiv.org/abs/2503.10143">arxiv</a> /
+              <a href="https://github.com/LiuJF1226/GaussHDR">code</a> 
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <a href="javascript:void(0)" class="paper-teaser-link" onclick="openImagePreview('images/mono-vifi.png')" title="点击查看大图">
+                <span class="paper-teaser-thumb">
+                  <img src="images/mono-vifi.png" width="200" alt="Mono-ViFI teaser">
+                  <span class="paper-teaser-zoom"><i class="fa fa-search"></i></span>
+                </span>
+              </a>
+            </td>
+            <td width="75%" valign="middle">
+              <a href="https://arxiv.org/abs/2407.14126">
+                <papertitle>Mono-ViFI: A Unified Learning Framework for Self-supervised Single- and Multi-frame Monocular Depth Estimation</papertitle>
+              </a>
+              <br>
+              <strong>Jinfeng Liu</strong>, 
+              <a href="https://scholar.google.com/citations?hl=en&user=KKzKc_8AAAAJ">Lingtong Kong</a>,
+              <a href="https://libraboli.github.io/">Bo Li</a>,
+              <a href="https://openreview.net/profile?id=~Zerong_Wang2">Zerong Wang</a>,
+              <a href="https://openreview.net/profile?id=~Hong_Gu1">Hong Gu</a>,
+              <a href="https://openreview.net/profile?id=~Jinwei_Chen3">Jinwei Chen</a>
+              <br>
+              <strong style="color:red;"><em>ECCV</em>, 2024</strong>
+              <br>
+              <a href="https://arxiv.org/abs/2407.14126">arxiv</a> /
+              <a href="https://github.com/LiuJF1226/Mono-ViFI">code</a> 
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <a href="javascript:void(0)" class="paper-teaser-link" onclick="openImagePreview('images/bde-depth.png')" title="点击查看大图">
+                <span class="paper-teaser-thumb">
+                  <img src="images/bde-depth.png" width="200" alt="BDEdepth teaser">
+                  <span class="paper-teaser-zoom"><i class="fa fa-search"></i></span>
+                </span>
+              </a>
+            </td>
+            <td width="75%" valign="middle">
+              <a href="https://arxiv.org/abs/2309.05254">
+                <papertitle>Towards Better Data Exploitation In Self-Supervised Monocular Depth Estimation</papertitle>
+              </a>
+              <br>
+              <strong>Jinfeng Liu</strong>, 
+              <a href="https://scholar.google.com/citations?hl=en&user=KKzKc_8AAAAJ">Lingtong Kong</a>,
+              <a href="http://www.pami.sjtu.edu.cn/jieyang">Jie Yang</a>,
+              <a href="https://wliusjtu.github.io/">Wei Liu</a>
+              <br>
+              <strong style="color:red;"><em>IEEE RA-L</em>, 2024</strong>
+              <br>
+              <a href="https://arxiv.org/abs/2309.05254">arxiv</a> /
+              <a href="https://github.com/LiuJF1226/BDEdepth">code</a> 
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <a href="javascript:void(0)" class="paper-teaser-link" onclick="openImagePreview('images/softclip.png')" title="点击查看大图">
+                <span class="paper-teaser-thumb">
+                  <img src="images/softclip.png" width="200" alt="SoftCLIP teaser">
+                  <span class="paper-teaser-zoom"><i class="fa fa-search"></i></span>
+                </span>
+              </a>
+            </td>
+            <td width="75%" valign="middle">
+              <a href="https://arxiv.org/abs/2303.17561">
+                <papertitle>SoftCLIP: Softer Cross-modal Alignment Makes CLIP Stronger</papertitle>
+              </a>
+              <br>
+              <a href="https://scholar.google.com/citations?user=uk8ckNYAAAAJ">Yuting Gao</a><span class="co-first-mark">*</span>,
+              <strong>Jinfeng Liu</strong><span class="co-first-mark">*</span>, 
+              <a href="https://scholar.google.com/citations?user=aQwOY1gAAAAJ">Zihan Xu</a><span class="co-first-mark">*</span>,
+              <a href="https://openreview.net/profile?id=~Tong_Wu10">Tong Wu</a>,
+              <a href="https://openreview.net/profile?id=~Enwei_Zhang1">Enwei Zhang</a>,
+              <a href="https://wliusjtu.github.io/">Wei Liu</a>,
+              <a href="http://www.pami.sjtu.edu.cn/jieyang">Jie Yang</a>,
+              <a href="https://keli.info/">Ke Li</a>,
+              <a href="https://www.sunxing.org/">Xing Sun</a>
+              <br>
+              <span class="co-first-note"><span class="co-first-mark">*</span> Equal contribution</span>
+              <br>
+              <strong style="color:red;"><em>AAAI</em>, 2024</strong>
+              <br>
+              <a href="https://arxiv.org/abs/2303.17561">arxiv</a> 
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <a href="javascript:void(0)" class="paper-teaser-link" onclick="openImagePreview('images/pyramidclip.png')" title="点击查看大图">
+                <span class="paper-teaser-thumb">
+                  <img src="images/pyramidclip.png" width="200" alt="PyramidCLIP teaser">
+                  <span class="paper-teaser-zoom"><i class="fa fa-search"></i></span>
+                </span>
+              </a>
+            </td>
+            <td width="75%" valign="middle">
+              <a href="https://arxiv.org/abs/2204.14095">
+                <papertitle>PyramidCLIP: Hierarchical Feature Alignment for Vision-language Model Pretraining</papertitle>
+              </a>
+              <br>
+              <a href="https://scholar.google.com/citations?user=uk8ckNYAAAAJ">Yuting Gao</a><span class="co-first-mark">*</span>,
+              <strong>Jinfeng Liu</strong><span class="co-first-mark">*</span>, 
+              <a href="https://scholar.google.com/citations?user=aQwOY1gAAAAJ">Zihan Xu</a><span class="co-first-mark">*</span>,
+              <a href="https://scholar.google.com/citations?user=dSAnoLgAAAAJ">Jun Zhang</a>,
+              <a href="https://keli.info/">Ke Li</a>,
+              <a href="https://mac.xmu.edu.cn/rrji/">Rongrong Ji</a>,
+              <a href="https://cshen.github.io/">Chunhua Shen</a>
+              <br>
+              <span class="co-first-note"><span class="co-first-mark">*</span> Equal contribution</span>
+              <br>
+              <strong style="color:red;"><em>NeurIPS</em>, 2022 (Oral)</strong>
+              <br>
+              <a href="https://arxiv.org/abs/2204.14095">arxiv</a> /
+              <a href="https://github.com/Yuting-Gao/PyramidCLIP">code</a> 
+            </td>
+          </tr>
+        </tbody></table>
+
+     
+
+        <a id="interships"></a>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+          <td style="padding:20px;width:100%;vertical-align:middle">
+            <heading>Interships</heading>
+          </td>
+        </tr>
+
+        <table width="100%" align="center" border="0" cellpadding="20">
+          <tbody>
+            <tr>
+              <td width="100%" style="width:100%; padding:0 0px;">
+                <ul class="navlist">
+                  <li><strong>Jan. 2026 - Present:</strong> Research Intern at <a href="https://www.horizon.auto/about" target="_blank">Horizon Robotics.</a></li>
+                  <li><strong>Jul. 2023 - Jul. 2024 and Jun. 2025 - Sep. 2025:</strong> Research Intern at <a href="https://github.com/vivoCameraResearch/" target="_blank">vivo BlueImage Lab</a>, work closely with <a href="https://libraboli.github.io/">Bo Li</a> and <a href="https://scholar.google.com/citations?hl=en&user=KKzKc_8AAAAJ">Lingtong Kong</a>.</li>
+                  <li><strong>Jan. 2022 - Aug. 2022:</strong> Research Intern at <a href="https://github.com/TencentYoutuResearch" target="_blank">Tencent Youtu Lab</a>, work closely with <a href="https://scholar.google.com/citations?user=uk8ckNYAAAAJ">Yuting Gao</a>.</li>
+                </ul>   
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <a id="services"></a>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+          <td style="padding:20px;width:100%;vertical-align:middle">
+            <heading>Services</heading>
+          </td>
+          </tr>
+      </tbody></table>
+
+        <table width="100%" align="center" border="0" cellpadding="20">
+          <tbody>
+            <tr>
+              <!-- <td style="padding:20px;width:25%;vertical-align:middle"> -->
+                <!-- <img src="main_page/images/services.png" width="160"> -->
+              <!-- </td> -->
+              <!-- <td width="100%" valign="center" style="line-height: 15px;"> -->
+              <td width="100%" style="width:100%; padding:0 0px;">
+                <ul class="navlist">	
+                  <li><strong>Reviewer for Conference: </strong>CVPR, ICCV, ECCV, ICRA, ICLR and NeurIPS</li>
+                  <li><strong>Teaching Assistant: </strong>
+                    <ul style="margin-top:0.2em;">
+                      <li>COMP3711: Design and Analysis of Algorithms, 2025 Fall</li>
+                      <li>COMP1021: Introduction to Computer Science, 2025 Spring</li>
+                    </ul>
+                  </li> 
+                  <!-- , Spring 2023 -->
+                </ul>   
+                <!-- <ul class="navlist">	
+                  <li>services Assistant, Parallel Programming - Spring 2021/22</li>
+                </ul>                
+                <ul class="navlist">	
+                  <li>services Assistant, Discrete Mathematical Tools for Computer Science - Fall 2021/22</li>
+                </ul> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
+          <tr>
+            <td>
+              <div><div id="973426107240231346" align="center">
+                <a href='https://clustrmaps.com/site/1bn4l'  title='Visit tracker'><img src='//clustrmaps.com/map_v2.png?cl=ffffff&w=300&t=tt&d=NLKW-iIrZCVUROMhdhzyEoRIQb66QjiOKeKjaB5DotM&co=2d78ad&ct=ffffff'/></a>
+              </div>
+            </td>
+          </tr>
+        </tbody></table> -->
+
+        <table width="35%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
+          <tr>
+            <td>
+                <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=Ut0xwCeVKzSBxO2-5arlWOGdDTx1f9L2U8zbLWibfTQ"></script> -->
+                <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=nlm-81PeiOrXzi01fLG0s4LlHESGXs7Mq5evAgaMxqg&cl=ffffff&w=a"></script>
+              </td>
+          </tr>
+        </tbody></table>
+
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+            <td style="padding:0px">
+              <br>
+              <p style="text-align:right;font-size:small;">
+                Source code from <a href="https://jonbarron.info/">Jon Barron</a>, 
+                <a href="https://aljazbozic.github.io/">Aljaž Božič</a>, 
+                <a href="https://xinntao.github.io/">XINTAO</a>,
+                <a href="https://yangekun.gitee.io/resume/">Ekun</a>,
+                <a href="https://mizhenxing.github.io/">Zhenxing</a>, and
+                <a href="https://w-ted.github.io/">Yuxin</a>.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </table>
+
+  <div id="image-preview-overlay" class="image-preview-overlay" onclick="closeImagePreview()">
+    <span class="image-preview-close" onclick="closeImagePreview()">&times;</span>
+    <img id="image-preview-full" class="image-preview-full" src="" alt="Preview" onclick="event.stopPropagation()">
+  </div>
+
+  <script>
+    function openImagePreview(src) {
+      document.getElementById('image-preview-full').src = src;
+      document.getElementById('image-preview-overlay').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImagePreview() {
+      document.getElementById('image-preview-overlay').style.display = 'none';
+      document.getElementById('image-preview-full').src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeImagePreview();
+      }
+    });
+  </script>
+  
+</body>
+
+</html>
